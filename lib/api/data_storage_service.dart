@@ -10,6 +10,8 @@ class DataStorage {
   static const defaultValueStudentId = '';
   static const keyPassword = 'password';
   static const defaultValuePassword = '';
+  static const keyEnrollYear = 'enrollYear';
+  static const defaultValueEnrollYear = '';
 
   static const keyIsShowNonCurrentWeek = 'showNonCurrentWeek';
   static const defaultValueIsShowNonCurrentWeek = false;

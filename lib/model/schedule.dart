@@ -80,6 +80,18 @@ class Schedule {
     return weekNoRaw.split(',').map((e) => int.parse(e)).toList();
   }
 
+  bool isCurrentWeekCourse(int currentWeekNo) {
+    return weekNoMachineReadable.contains(currentWeekNo);
+  }
+
+  double getOpacity(int currentWeekNo) {
+    if (isCurrentWeekCourse(currentWeekNo)) {
+      return 1.0;
+    } else {
+      return 0.3;
+    }
+  }
+
   factory Schedule.fromJson(Map<String, dynamic> json) => _$ScheduleFromJson(json);
 
   Map<String, dynamic> toJson() => _$ScheduleToJson(this);

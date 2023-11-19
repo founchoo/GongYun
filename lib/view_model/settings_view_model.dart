@@ -1,15 +1,17 @@
 import 'package:gong_yun/api/chaoxing_service.dart';
 import 'package:gong_yun/api/data_storage_service.dart';
 import 'package:flutter/material.dart';
+import 'package:gong_yun/main.dart';
 import 'package:pmvvm/pmvvm.dart';
 
 class SettingsViewModel extends ViewModel {
+  final String pageName = '设置';
+
   bool isLogin = false;
   bool isShowNonCurrentWeek = false;
   bool isShowYear = false;
   bool isShowDate = false;
   bool isShowTime = false;
-  bool isShowDesktopShortcut = false;
   String darkMode = '跟随系统';
   bool isSysColor = false;
 
@@ -37,9 +39,6 @@ class SettingsViewModel extends ViewModel {
     isShowYear = DataStorage.prefs!.getBool(DataStorage.keyIsShowYear) ?? false;
     isShowDate = DataStorage.prefs!.getBool(DataStorage.keyIsShowDate) ?? false;
     isShowTime = DataStorage.prefs!.getBool(DataStorage.keyIsShowTime) ?? false;
-    isShowDesktopShortcut =
-        DataStorage.prefs!.getBool(DataStorage.keyIsShowDesktopShortcut) ??
-            false;
     darkMode = DataStorage.prefs!.getString(DataStorage.keyDarkMode) ?? '跟随系统';
     isSysColor = DataStorage.prefs!.getBool(DataStorage.keyIsSysColor) ?? false;
     notifyListeners();
@@ -69,22 +68,22 @@ class SettingsViewModel extends ViewModel {
     notifyListeners();
   }
 
-  void setIsShowDesktopShortcut(bool value) {
-    DataStorage.prefs!.setBool(DataStorage.keyIsShowDesktopShortcut, value);
-    isShowDesktopShortcut = value;
-    notifyListeners();
+  void showDesktopShortcut() {
+    // TODO
   }
 
   void setDarkMode(String value) {
     DataStorage.prefs!.setString(DataStorage.keyDarkMode, value);
     darkMode = value;
     notifyListeners();
+    mainViewModel.setDarkMode(value);
   }
 
   void setIsSysColor(bool value) {
     DataStorage.prefs!.setBool(DataStorage.keyIsSysColor, value);
     isSysColor = value;
     notifyListeners();
+    mainViewModel.setIsSysColor(value);
   }
 
   Future<void> login() async {
@@ -95,6 +94,8 @@ class SettingsViewModel extends ViewModel {
           .setString(DataStorage.keyStudentId, studentIdController.text);
       DataStorage.prefs!
           .setString(DataStorage.keyPassword, passwordController.text);
+      final stuInfo = await ChaoxingService.getStudentInfo();
+      DataStorage.prefs!.setString(DataStorage.keyEnrollYear, stuInfo.sznj);
       if (context.mounted) Navigator.pop(context);
     }
   }
@@ -103,6 +104,7 @@ class SettingsViewModel extends ViewModel {
     DataStorage.prefs!.remove(DataStorage.keyCookie);
     DataStorage.prefs!.remove(DataStorage.keyStudentId);
     DataStorage.prefs!.remove(DataStorage.keyPassword);
+    DataStorage.prefs!.remove(DataStorage.keyEnrollYear);
     isLogin = false;
     notifyListeners();
   }
