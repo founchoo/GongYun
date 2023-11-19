@@ -14,7 +14,6 @@ import 'package:gong_yun/view_model/schedule_view_model.dart';
 import 'package:gong_yun/view_model/settings_view_model.dart';
 import 'package:pmvvm/pmvvm.dart';
 import 'package:window_manager/window_manager.dart';
-import 'dart:math' as math;
 
 class Destination {
   const Destination(this.title, this.icon, this.selectedIcon);
